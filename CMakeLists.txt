@@ -55,6 +55,7 @@ target_link_libraries(tentris
         rdf-parser::rdf-parser
         Boost::Boost
         serd-0
+        igraph
         )
 
 target_include_directories(tentris INTERFACE

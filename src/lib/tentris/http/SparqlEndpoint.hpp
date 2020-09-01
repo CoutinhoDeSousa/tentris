@@ -64,7 +64,37 @@ namespace tentris::http {
 					query_string = std::string(query_params["query"]);
 					log("query: {}"_format(query_string));
 					// check if there is actually an query
-					try {
+					/*
+					 * adding sort & weight
+					 */
+					std::string sort_string = std::string(query_params["sort"]);
+                    std::string weight_string = std::string(query_params["weight"]);
+                    //
+                    // .../sparql?query=assda&sort=ASC&weight=XY
+
+                    log("sort: {}"_format(sort_string));
+                    log("weight: {}"_format(weight_string));
+                    if (sort_string == "MINIMUM")
+                        einsum::internal::sort_order = einsum::internal::SORT::MINIMUM;
+                    else if(sort_string == "MAXIMUM")
+                        einsum::internal::sort_order = einsum::internal::SORT::MAXIMUM;
+                    else if(sort_string == "RANDOM")
+                        einsum::internal::sort_order = einsum::internal::SORT::RANDOM;
+                    else
+                        logError(" ## Unknown Sort String\n"
+                                 "    sort_string: {}"_format(sort_string)
+                        );
+
+                    if (weight_string == "CARDINALITY")
+                        einsum::internal::weight_func = einsum::internal::WEIGHT::CARDINALITY;
+                    else if(sort_string == "NORMAL")
+                        einsum::internal::weight_func = einsum::internal::WEIGHT::NORMAL;
+                    else
+                        logError(" ## Unknown Weight String\n"
+                                 "    weight_string: {}"_format(weight_string)
+                        );
+
+                    try {
 						query_package = AtomicQueryExecutionCache::getInstance()[query_string];
 					} catch (const std::invalid_argument &exc) {
 						status = Status::UNPARSABLE;
