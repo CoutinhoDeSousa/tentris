@@ -85,6 +85,7 @@ namespace tentris::http {
                                  "    sort_string: {}"_format(sort_string)
                         );
 
+
                     if (weight_string == "CARDINALITY")
                         einsum::internal::weight_func = einsum::internal::WEIGHT::CARDINALITY;
                     else if(sort_string == "NORMAL")
